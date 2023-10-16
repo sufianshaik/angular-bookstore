@@ -1,0 +1,81 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-lg-9 ">
+            <h2 class = "d-flex justify-content-center">Bookstore</h2>
+            <div class = "d-flex justify-content-between mb-2">
+            <!-- <form class="form-inline my-2 my-lg-0"> -->
+                <div class = "d-flex w-100">
+                    <input class="form-control mr-sm-2 w-25" [(ngModel)] = "listFilter" type="search" placeholder="Search by keyword..." aria-label="Search">
+                    <button class="btn mx-2 btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </div>
+                <div ngbDropdown class = "d-flex me-4">
+                    <button ngbDropdownToggle class="btn btn-secondary dropdown-toggle"  type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        filter By
+                      </button>
+                      <div ngbDropdownMenu class="dropdown-menu w-25" aria-labelledby="dropdownMenuButton">
+                        <a (click) = "filterBookListHigh()" ngbDropdownItem class="dropdown-item w-50" href="#">Low to High</a>
+                        <a (click) = "filterBookListLow()" ngbDropdownItem class="dropdown-item w-50" href="#">High to Low</a>
+                      </div>
+                </div>
+            <!-- </form> -->
+            </div>
+            <div class = "mb-4">
+                Search By : {{listFilter}}
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-5" *ngFor="let book of filteredList">
+                    <app-product-card [book]="book" (addBook)="addToCartList($event)" (removeBook) = "removeFromCartChild($event)"></app-product-card>
+                </div>
+            </div>
+        </div>
+        <!-- cart -->
+        <div class="col-lg-3 col-md-4 g-0 fixed-top ms-auto" style="overflow-y: scroll ; max-height: 100% ;">
+            <h4 class="display-5" style="font-family: Georgia, serif;">Cart Items</h4>
+            <div *ngFor="let item of cartList">
+                <div class="card my-2">
+                    <div class="row w-100">
+                        <div class="col-md-3 g-0">
+                            <div>
+                                <img class="img-responsive" width="70vh" height="85vh" [src]="item.image">
+                            </div>
+                        </div>
+                        <div class="col-md-9 g-0">
+                            <div class="d-flex justify-content-between">
+                                <span class="card-title">{{item.title}}</span>
+                                <ngb-rating [max] = "5"></ngb-rating>
+                                <button class="btn py-0 btn-sm" (click) = "removeItemFromCart(item.ISBN)"><span style="color: #c72727">x</span></button>
+                            </div>
+                            <div class="">
+                                <span class="card-text">by {{ (item.author.length > 15 ) ? (item.author | slice: 0:6) +
+                                    '...': (item.author)}}</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-around" style="font-size: smaller;">
+                                    <span class="me-4">{{item.price.value | currency : 'EUR' :'symbol' : '1.2-2'
+                                        }}</span>
+                                    <span style="text-decoration: line-through;">{{item.price.value + 100.0 | currency :
+                                        'EUR' : 'symbol' : '1.2-2'}}</span>
+                                </div>
+                                <div class="btn-group m-1" style="height: 29px;">
+                                    <button class="btn btn-success" (click)="quantityChange(item.ISBN , '-')">-</button>
+                                    <button class="btn btn-white"><span class="smaller">{{item. qty}}</span></button>
+                                    <button class="btn btn-success" (click)="quantityChange(item.ISBN , '+')">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-block">
+                <span style="font : 16px Lexend, sans-sarif">Total {{cartList.length}} books & You Pay {{cartTotal | currency : 'EUR' : 'symbol' : '1.2-2'}}
+                </span>
+            </div>
+            <div class = "mt-3">
+                <button class ="w-100 btn btn-success">
+                    Check Out
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

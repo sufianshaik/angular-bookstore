@@ -1,0 +1,17 @@
+<div class="card">
+    <img [src]="book.image" class="card-img-top img-responsive d-block mx-auto" alt="...">
+    <div class="card-body" >
+      <span class="card-title d-block">{{book.title}}</span>
+      <span class = "card-text">by {{ (book.author.length > 15 ) ? (book.author | slice: 0:6) + '...': (book.author)}}</span>
+      <div class = "d-flex justify-content-between">
+        <span>{{book.price.value | currency : 'EUR' :'symbol' : '1.2-2' }}</span>
+        <span style="text-decoration: line-through ;" >{{book.price.value + 100.0 | currency : 'EUR' : 'symbol' : '1.2-2'}}</span>
+      </div>
+      <div class = " d-flex mx-auto btn-group mt-3 w-75" *ngIf="book.qty && book.qty > 0">
+        <button class = "btn btn-secondary w-50" (click) = "removeFromCart()">-</button>
+        <button  class = "d-block mx-auto btn w-50 btn-">{{ book.qty }}</button>
+        <button class = "btn btn-secondary w-50" (click) = "addToCart()" >+</button>
+      </div>
+      <button *ngIf = "!book.qty" class = "d-block mx-auto mt-3 btn w-50 btn-success" (click) = "addToCart()">Add</button>
+    </div>
+</div>

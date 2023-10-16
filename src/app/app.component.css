@@ -1,0 +1,11 @@
+.card-title {
+    font : 14px  roboto , sans-serif ;
+    color : black ;
+    margin : 8px 0px 0px ; 
+}
+
+.card-text {
+    color : #939393 ;
+    font : 14px  roboto , sans-serif ;
+    margin : 0px 0px 0px ;
+}
